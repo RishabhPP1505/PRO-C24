@@ -2,44 +2,57 @@ const Engine = Matter.Engine;
 const World = Matter.World;
 const Bodies = Matter.Bodies;
 const Constraint = Matter.Constraint;
+
 var engine, world;
-var canvas, angle, tower, ground, cannon;
+var canvas;
+var palyer, playerBase;
+var computer, computerBase;
 
-
-
-
-function preload() {
-  backgroundImg = loadImage("./assets/background.gif");
-  towerImage = loadImage("./assets/tower.png");
-
-}
 
 function setup() {
-  canvas = createCanvas(1200,600);
+  canvas = createCanvas(windowWidth, windowHeight);
+
   engine = Engine.create();
   world = engine.world;
-  angle = -PI / 4;
-  ground = new Ground(0, height - 1, width * 2, 1);
-  tower = new Tower(150, 350, 160, 310);
-  cannon = new Cannon(180, 110, 110, 50, angle);
-  cannonBall=new CannonBall(cannon.x,cannon.y);
 
+  playerBase = new PlayerBase(300, random(450, height - 300), 180, 150);
+  player = new Player(285, playerBase.body.position.y - 153, 50, 180);
+
+
+  computerBase = new ComputerBase(
+    width - 300,
+    random(450, height - 300),
+    180,
+    150
+  );
+  computer = new Computer(
+    width - 280,
+    computerBase.body.position.y - 153,
+    50,
+    180
+  );
+
+  
 }
 
 function draw() {
   background(189);
-  image(backgroundImg, 0, 0, width, height);
-
-  
 
   Engine.update(engine);
-  ground.display();
+
+  // Title
+  fill("#FFFF");
+  textAlign("center");
+  textSize(40);
+  text("EPIC ARCHERY", width / 2, 100);
+
+ 
+  playerBase.display();
+  player.display();
   
 
-  cannon.display();
-  tower.display();
-  cannonBall.display();
- 
+  computerBase.display();
+  computer.display();
+  
+
 }
-
-
